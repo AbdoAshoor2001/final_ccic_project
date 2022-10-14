@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:untitled/API/login/login_view.dart';
 import 'package:untitled/API/register/states.dart';
+
 
 import '../Characters/View.dart';
 import 'cubit.dart';
@@ -18,12 +20,12 @@ class RegisterView extends StatelessWidget {
           create: (context) => RegisterCubit(),
           child: BlocListener<RegisterCubit, RegisterStates>(
             listener: (context, state) {
-              if(state is RegisterSuccessState){
-
-              } else if (state is RegisterErrorState){
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(
-                  state.message
-                )));
+              if (state is RegisterSuccessState) {
+                Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(builder: (context) => CharactersView()));
+              } else if (state is RegisterErrorState) {
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(SnackBar(content: Text(state.message)));
               }
             },
             child: Builder(
@@ -105,17 +107,26 @@ class RegisterView extends StatelessWidget {
                       ),
                       BlocBuilder<RegisterCubit, RegisterStates>(
                         builder: (context, state) {
-                          if (state is RegisterLoadingState){
+                          if (state is RegisterLoadingState) {
                             return Center(
                               child: CircularProgressIndicator(),
                             );
                           }
                           return ElevatedButton(
-                            onPressed:cubit.register,
+                            onPressed: cubit.register,
                             child: Text('Register'),
                           );
                         },
-                      )
+                      ),
+                      TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => LoginView()));
+                          },
+                          child:
+                          Text(
+                              'Log In To Existing Account'
+                          ))
                     ],
                   ),
                 );
