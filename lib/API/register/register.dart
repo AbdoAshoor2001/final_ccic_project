@@ -120,7 +120,7 @@ class RegisterView extends StatelessWidget {
                       ),
                       TextButton(
                           onPressed: () {
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).pop(
                                 MaterialPageRoute(builder: (context) => LoginView()));
                           },
                           child:
